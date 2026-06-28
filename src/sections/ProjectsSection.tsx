@@ -66,94 +66,171 @@ function ProjectCard({ project, index, progress }: CardProps) {
 
   return (
     /*
-     * The sticky div IS the scroll spacer. Its h-[85vh] height means it occupies
-     * 85vh of scroll distance before the next card takes over.
-     * position:sticky makes it pin at `stickyTop` while its parent scrolls past.
+     * On mobile: plain static block with bottom margin — no sticky, no scale.
+     * On md+: sticky stacking with framer-motion scale as before.
      */
-    <div
-      className="sticky h-[85vh]"
-      style={{ top: `${stickyTop}px` }}
-    >
-      <motion.div
-        style={{ scale, transformOrigin: 'top center' }}
-        className="
-          h-full w-full
-          rounded-[40px] sm:rounded-[50px] md:rounded-[60px]
-          border-2 border-[#D7E2EA] bg-[#0C0C0C]
-          p-4 sm:p-6 md:p-8
-          flex flex-col gap-4 md:gap-6
-          overflow-hidden
-        "
+    <>
+      {/* ─── Mobile layout (below md): simple stacked card ———─── */}
+      <div className="block md:hidden mb-6">
+        <div
+          className="
+            rounded-[32px]
+            border-2 border-[#D7E2EA] bg-[#0C0C0C]
+            p-4
+            flex flex-col gap-4
+            overflow-hidden
+          "
+        >
+          {/* Top row: stacks vertically on mobile */}
+          <div className="flex flex-col gap-3">
+            {/* Number + Category + Name row */}
+            <div className="flex items-center gap-3">
+              <span
+                className="hero-heading font-black leading-none flex-shrink-0"
+                style={{ fontSize: 'clamp(2.5rem, 12vw, 80px)' }}
+              >
+                {project.number}
+              </span>
+              <div className="flex flex-col gap-0.5 min-w-0">
+                <span
+                  className="text-[#D7E2EA] font-light uppercase tracking-widest opacity-60 text-[0.65rem]"
+                >
+                  {project.category}
+                </span>
+                <span
+                  className="text-[#D7E2EA] font-black uppercase leading-tight text-lg"
+                >
+                  {project.name}
+                </span>
+              </div>
+            </div>
+            {/* Button below title, not side-by-side */}
+            <div>
+              <LiveProjectButton href={project.liveUrl} />
+            </div>
+          </div>
+
+          {/* Image grid */}
+          <div className="flex gap-3 min-h-0" style={{ height: '44vw' }}>
+            <div className="flex flex-col gap-3 min-h-0" style={{ width: '40%' }}>
+              <img
+                src={project.images[0]}
+                alt={`${project.name} — view 1`}
+                loading="lazy"
+                width={800}
+                height={500}
+                className="w-full object-cover rounded-[20px] flex-shrink-0"
+                style={{ height: '48%' }}
+              />
+              <img
+                src={project.images[1]}
+                alt={`${project.name} — view 2`}
+                loading="lazy"
+                width={800}
+                height={500}
+                className="w-full object-cover rounded-[20px] flex-1 min-h-0"
+              />
+            </div>
+            <div className="flex-1 min-h-0">
+              <img
+                src={project.images[2]}
+                alt={`${project.name} — view 3`}
+                loading="lazy"
+                width={600}
+                height={900}
+                className="w-full h-full object-cover rounded-[20px]"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ─── Desktop layout (md+): sticky stacking with scale ——─── */}
+      <div
+        className="hidden md:block sticky h-[85vh]"
+        style={{ top: `${stickyTop}px` }}
       >
-        {/* ── Top row: number / category / name / live button ── */}
-        <div className="flex flex-wrap items-center gap-4 md:gap-6 flex-shrink-0">
-          {/* Number */}
-          <span
-            className="hero-heading font-black leading-none flex-shrink-0"
-            style={{ fontSize: 'clamp(2.5rem, 8vw, 110px)' }}
-          >
-            {project.number}
-          </span>
-
-          {/* Category + project name */}
-          <div className="flex flex-col gap-0.5 flex-1 min-w-0">
+        <motion.div
+          style={{ scale, transformOrigin: 'top center' }}
+          className="
+            h-full w-full
+            rounded-[50px] md:rounded-[60px]
+            border-2 border-[#D7E2EA] bg-[#0C0C0C]
+            p-6 md:p-8
+            flex flex-col gap-4 md:gap-6
+            overflow-hidden
+          "
+        >
+          {/* ── Top row: number / category / name / live button ── */}
+          <div className="flex flex-wrap items-center gap-4 md:gap-6 flex-shrink-0">
+            {/* Number */}
             <span
-              className="text-[#D7E2EA] font-light uppercase tracking-widest opacity-60"
-              style={{ fontSize: 'clamp(0.65rem, 1.1vw, 0.95rem)' }}
+              className="hero-heading font-black leading-none flex-shrink-0"
+              style={{ fontSize: 'clamp(2.5rem, 8vw, 110px)' }}
             >
-              {project.category}
+              {project.number}
             </span>
-            <span
-              className="text-[#D7E2EA] font-black uppercase leading-tight"
-              style={{ fontSize: 'clamp(1rem, 2.8vw, 2.4rem)' }}
-            >
-              {project.name}
-            </span>
+
+            {/* Category + project name */}
+            <div className="flex flex-col gap-0.5 flex-1 min-w-0">
+              <span
+                className="text-[#D7E2EA] font-light uppercase tracking-widest opacity-60"
+                style={{ fontSize: 'clamp(0.65rem, 1.1vw, 0.95rem)' }}
+              >
+                {project.category}
+              </span>
+              <span
+                className="text-[#D7E2EA] font-black uppercase leading-tight"
+                style={{ fontSize: 'clamp(1rem, 2.8vw, 2.4rem)' }}
+              >
+                {project.name}
+              </span>
+            </div>
+
+            {/* Live project link */}
+            <div className="ml-auto flex-shrink-0">
+              <LiveProjectButton href={project.liveUrl} />
+            </div>
           </div>
 
-          {/* Live project link */}
-          <div className="ml-auto flex-shrink-0">
-            <LiveProjectButton href={project.liveUrl} />
-          </div>
-        </div>
+          {/* ── Image grid — fills remaining height ── */}
+          <div className="flex gap-3 md:gap-4 flex-1 min-h-0">
+            {/* Left column: 2 stacked images */}
+            <div className="flex flex-col gap-3 md:gap-4 min-h-0" style={{ width: '40%' }}>
+              <img
+                src={project.images[0]}
+                alt={`${project.name} — view 1`}
+                loading="lazy"
+                width={800}
+                height={500}
+                className="w-full object-cover rounded-[36px] md:rounded-[44px] flex-shrink-0"
+                style={{ height: 'clamp(110px, 14vw, 210px)' }}
+              />
+              <img
+                src={project.images[1]}
+                alt={`${project.name} — view 2`}
+                loading="lazy"
+                width={800}
+                height={500}
+                className="w-full object-cover rounded-[36px] md:rounded-[44px] flex-1 min-h-0"
+              />
+            </div>
 
-        {/* ── Image grid — fills remaining height ── */}
-        <div className="flex gap-3 md:gap-4 flex-1 min-h-0">
-          {/* Left column: 2 stacked images */}
-          <div className="flex flex-col gap-3 md:gap-4 min-h-0" style={{ width: '40%' }}>
-            <img
-              src={project.images[0]}
-              alt={`${project.name} — view 1`}
-              loading="lazy"
-              width={800}
-              height={500}
-              className="w-full object-cover rounded-[28px] sm:rounded-[36px] md:rounded-[44px] flex-shrink-0"
-              style={{ height: 'clamp(110px, 14vw, 210px)' }}
-            />
-            <img
-              src={project.images[1]}
-              alt={`${project.name} — view 2`}
-              loading="lazy"
-              width={800}
-              height={500}
-              className="w-full object-cover rounded-[28px] sm:rounded-[36px] md:rounded-[44px] flex-1 min-h-0"
-            />
+            {/* Right column: 1 tall image */}
+            <div className="flex-1 min-h-0">
+              <img
+                src={project.images[2]}
+                alt={`${project.name} — view 3`}
+                loading="lazy"
+                width={600}
+                height={900}
+                className="w-full h-full object-cover rounded-[36px] md:rounded-[44px]"
+              />
+            </div>
           </div>
-
-          {/* Right column: 1 tall image */}
-          <div className="flex-1 min-h-0">
-            <img
-              src={project.images[2]}
-              alt={`${project.name} — view 3`}
-              loading="lazy"
-              width={600}
-              height={900}
-              className="w-full h-full object-cover rounded-[28px] sm:rounded-[36px] md:rounded-[44px]"
-            />
-          </div>
-        </div>
-      </motion.div>
-    </div>
+        </motion.div>
+      </div>
+    </>
   );
 }
 
