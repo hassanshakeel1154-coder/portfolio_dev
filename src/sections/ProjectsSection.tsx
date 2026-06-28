@@ -125,6 +125,8 @@ function ProjectCard({ project, index, progress }: CardProps) {
               src={project.images[0]}
               alt={`${project.name} — view 1`}
               loading="lazy"
+              width={800}
+              height={500}
               className="w-full object-cover rounded-[28px] sm:rounded-[36px] md:rounded-[44px] flex-shrink-0"
               style={{ height: 'clamp(110px, 14vw, 210px)' }}
             />
@@ -132,6 +134,8 @@ function ProjectCard({ project, index, progress }: CardProps) {
               src={project.images[1]}
               alt={`${project.name} — view 2`}
               loading="lazy"
+              width={800}
+              height={500}
               className="w-full object-cover rounded-[28px] sm:rounded-[36px] md:rounded-[44px] flex-1 min-h-0"
             />
           </div>
@@ -142,6 +146,8 @@ function ProjectCard({ project, index, progress }: CardProps) {
               src={project.images[2]}
               alt={`${project.name} — view 3`}
               loading="lazy"
+              width={600}
+              height={900}
               className="w-full h-full object-cover rounded-[28px] sm:rounded-[36px] md:rounded-[44px]"
             />
           </div>

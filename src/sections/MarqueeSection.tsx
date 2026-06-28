@@ -43,6 +43,8 @@ export default function MarqueeSection() {
             src={src}
             alt={`Work sample ${(i % 5) + 1}`}
             loading="lazy"
+            width={420}
+            height={270}
             className="rounded-2xl object-cover flex-shrink-0"
             style={{ width: '420px', height: '270px' }}
           />
@@ -63,6 +65,8 @@ export default function MarqueeSection() {
             src={src}
             alt={`Work sample ${(i % 5) + 6}`}
             loading="lazy"
+            width={420}
+            height={270}
             className="rounded-2xl object-cover flex-shrink-0"
             style={{ width: '420px', height: '270px' }}
           />

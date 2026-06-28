@@ -66,6 +66,8 @@ export default function HeroSection() {
           <img
             src="/images/portrait.jpeg"
             alt="Hassan – Web Designer & Digital Marketer"
+            width={520}
+            height={780}
             className="w-full h-auto object-cover object-top select-none pointer-events-none"
             draggable={false}
           />
